@@ -30,7 +30,7 @@ return {
           deleted = '✖',
           renamed = 'R',
           -- Status type
-          untracked = 'N',
+          untracked = 'A',
           ignored = '-',
           unstaged = 'U',
           staged = 'S',

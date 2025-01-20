@@ -9,15 +9,29 @@ return {
   'rebelot/kanagawa.nvim',
   'sho-87/kanagawa-paper.nvim',
   'mg979/vim-visual-multi',
-  'AlexvZyl/nordic.nvim',
   'EdenEast/nightfox.nvim',
+
+  {
+    'f-person/auto-dark-mode.nvim',
+    opts = {
+      update_interval = 1000,
+      set_dark_mode = function()
+        vim.api.nvim_set_option_value('background', 'dark', {})
+        vim.cmd.colorscheme 'carbonfox'
+      end,
+      set_light_mode = function()
+        vim.api.nvim_set_option_value('background', 'light', {})
+        vim.cmd.colorscheme 'dayfox'
+      end,
+    },
+  },
 
   {
     'akinsho/toggleterm.nvim',
     version = '*',
     opts = {
       direction = 'float',
-      open_mapping = [[<leader>j]],
+      open_mapping = [[<D-j>]],
     },
   },
 }
