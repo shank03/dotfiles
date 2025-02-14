@@ -18,7 +18,7 @@ return {
   },
   opts = {
     window = {
-      position = 'right',
+      position = 'left',
       width = 32,
     },
     default_component_configs = {
