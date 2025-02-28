@@ -35,4 +35,9 @@ return {
       open_mapping = [[<D-j>]],
     },
   },
+
+  {
+    'cordx56/rustowl',
+    dependencies = { 'neovim/nvim-lspconfig' },
+  },
 }
