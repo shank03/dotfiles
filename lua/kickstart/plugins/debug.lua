@@ -7,9 +7,7 @@
 -- kickstart.nvim and not kitchen-sink.nvim ;)
 
 return {
-  -- NOTE: Yes, you can install new plugins here!
   'mfussenegger/nvim-dap',
-  -- NOTE: And you can specify dependencies as well
   dependencies = {
     -- Creates a beautiful debugger UI
     'rcarriga/nvim-dap-ui',
@@ -21,56 +19,55 @@ return {
     'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
 
-    -- Add your own debuggers here
-    'leoluz/nvim-dap-go',
+    'theHamsta/nvim-dap-virtual-text',
   },
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
     {
-      '<F5>',
+      '<leader>dc',
       function()
         require('dap').continue()
       end,
       desc = 'Debug: Start/Continue',
     },
     {
-      '<F1>',
+      '<leader>di',
       function()
         require('dap').step_into()
       end,
       desc = 'Debug: Step Into',
     },
     {
-      '<F2>',
+      '<leader>do',
       function()
         require('dap').step_over()
       end,
       desc = 'Debug: Step Over',
     },
     {
-      '<F3>',
+      '<leader>du',
       function()
         require('dap').step_out()
       end,
       desc = 'Debug: Step Out',
     },
     {
-      '<leader>b',
+      '<leader>dt',
       function()
         require('dap').toggle_breakpoint()
       end,
       desc = 'Debug: Toggle Breakpoint',
     },
-    {
-      '<leader>B',
-      function()
-        require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
-      end,
-      desc = 'Debug: Set Breakpoint',
-    },
+    -- {
+    --   '<leader>B',
+    --   function()
+    --     require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+    --   end,
+    --   desc = 'Debug: Set Breakpoint',
+    -- },
     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
     {
-      '<F7>',
+      '<leader>dg',
       function()
         require('dapui').toggle()
       end,
@@ -94,7 +91,73 @@ return {
       -- online, please don't ask me how to install them :)
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
-        'delve',
+        -- 'lldb',
+      },
+    }
+
+    dap.adapters.lldb = {
+      type = 'executable',
+      command = '/Users/sverma/Developer/LLVM/bin/lldb-dap',
+      name = 'lldb',
+    }
+
+    dap.set_log_level 'INFO'
+
+    dap.configurations.rust = {
+      {
+        name = 'Launch file',
+        type = 'lldb',
+        request = 'launch',
+        program = function()
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+        args = function()
+          local input = vim.fn.input('Args: ', '', 'file')
+          -- Use shell-like parsing to split arguments properly
+          local parsed = {}
+          for arg in string.gmatch(input, [[[^"\s]+|"[^"]*"]]) do
+            -- Remove quotes if any
+            arg = arg:gsub('^"(.*)"$', '%1')
+            table.insert(parsed, arg)
+          end
+          return parsed
+        end,
+        -- initCommands = function()
+        --   -- Find out where to look for the pretty printer Python module.
+        --   local rustc_sysroot = vim.fn.trim(vim.fn.system 'rustc --print sysroot')
+        --   assert(vim.v.shell_error == 0, 'failed to get rust sysroot using `rustc --print sysroot`: ' .. rustc_sysroot)
+        --   local script_file = rustc_sysroot .. '/lib/rustlib/etc/lldb_lookup.py'
+        --   local commands_file = rustc_sysroot .. '/lib/rustlib/etc/lldb_commands'
+
+        --   -- The following is a table/list of lldb commands, which have a syntax
+        --   -- similar to shell commands.
+        --   --
+        --   -- To see which command options are supported, you can run these commands
+        --   -- in a shell:
+        --   --
+        --   --   * lldb --batch -o 'help command script import'
+        --   --   * lldb --batch -o 'help command source'
+        --   --
+        --   -- Commands prefixed with `?` are quiet on success (nothing is written to
+        --   -- debugger console if the command succeeds).
+        --   --
+        --   -- Prefixing a command with `!` enables error checking (if a command
+        --   -- prefixed with `!` fails, subsequent commands will not be run).
+        --   --
+        --   -- NOTE: it is possible to put these commands inside the ~/.lldbinit
+        --   -- config file instead, which would enable rust types globally for ALL
+        --   -- lldb sessions (i.e. including those run outside of nvim). However,
+        --   -- that may lead to conflicts when debugging other languages, as the type
+        --   -- formatters are merely regex-matched against type names. Also note that
+        --   -- .lldbinit doesn't support the `!` and `?` prefix shorthands.
+        --   return {
+        --     ([[!command script import '%s']]):format(script_file),
+        --     ([[command source '%s']]):format(commands_file),
+        --   }
+        -- end,
+        -- ...,
       },
     }
 
@@ -121,28 +184,40 @@ return {
     }
 
     -- Change breakpoint icons
-    -- vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })
-    -- vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
-    -- local breakpoint_icons = vim.g.have_nerd_font
-    --     and { Breakpoint = '', BreakpointCondition = '', BreakpointRejected = '', LogPoint = '', Stopped = '' }
-    --   or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
-    -- for type, icon in pairs(breakpoint_icons) do
-    --   local tp = 'Dap' .. type
-    --   local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
-    --   vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
-    -- end
+    vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })
+    vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
+    local breakpoint_icons = vim.g.have_nerd_font
+        and { Breakpoint = '', BreakpointCondition = '', BreakpointRejected = '', LogPoint = '', Stopped = '' }
+      or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
+    for type, icon in pairs(breakpoint_icons) do
+      local tp = 'Dap' .. type
+      local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
+      vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
+    end
 
-    dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-    dap.listeners.before.event_terminated['dapui_config'] = dapui.close
-    dap.listeners.before.event_exited['dapui_config'] = dapui.close
+    dap.listeners.before.attach.dapui_config = function()
+      dapui.open()
+    end
+
+    dap.listeners.before.launch.dapui_config = function()
+      dapui.open()
+    end
+
+    dap.listeners.before.event_terminated.dapui_config = function()
+      dapui.close()
+    end
+
+    dap.listeners.before.event_exited.dapui_config = function()
+      dapui.close()
+    end
 
     -- Install golang specific config
-    require('dap-go').setup {
-      delve = {
-        -- On Windows delve must be run attached or it crashes.
-        -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
-        detached = vim.fn.has 'win32' == 0,
-      },
-    }
+    -- require('dap-go').setup {
+    --   delve = {
+    --     -- On Windows delve must be run attached or it crashes.
+    --     -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
+    --     detached = vim.fn.has 'win32' == 0,
+    --   },
+    -- }
   end,
 }
