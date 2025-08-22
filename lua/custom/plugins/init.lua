@@ -38,8 +38,11 @@ return {
     },
   },
 
-  {
-    'cordx56/rustowl',
-    dependencies = { 'neovim/nvim-lspconfig' },
-  },
+  -- {
+  --   'cordx56/rustowl',
+  --   version = '*',
+  --   build = 'cargo install --locked rustowl',
+  --   lazy = false,
+  --   opts = {},
+  -- },
 }
