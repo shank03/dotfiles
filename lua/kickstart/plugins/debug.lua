@@ -97,7 +97,7 @@ return {
 
     dap.adapters.lldb = {
       type = 'executable',
-      command = '/Users/sverma/Developer/LLVM/bin/lldb-dap',
+      command = 'lldb-dap',
       name = 'lldb',
     }
 
