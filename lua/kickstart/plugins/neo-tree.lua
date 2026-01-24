@@ -18,7 +18,8 @@ return {
   },
   opts = {
     window = {
-      position = 'float',
+      position = 'left',
+      width = 32,
     },
     default_component_configs = {
       git_status = {

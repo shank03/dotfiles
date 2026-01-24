@@ -16,6 +16,7 @@ return {
 
   {
     'f-person/auto-dark-mode.nvim',
+    config = true,
     opts = {
       update_interval = 1000,
       set_dark_mode = function()
@@ -32,6 +33,7 @@ return {
   {
     'akinsho/toggleterm.nvim',
     version = '*',
+    config = true,
     opts = {
       -- direction = 'float',
       open_mapping = [[<D-j>]],
