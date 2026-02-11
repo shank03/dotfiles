@@ -35,7 +35,8 @@ return {
     version = '*',
     config = true,
     opts = {
-      -- direction = 'float',
+      size = vim.o.columns * 0.4,
+      direction = 'vertical',
       open_mapping = [[<D-j>]],
     },
   },
