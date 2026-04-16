@@ -13,8 +13,8 @@ return {
   lazy = false,
   keys = {
     { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
-    { '<leader>g', ':Neotree git_status<CR>', desc = 'NeoTree git status', silent = true },
-    { '<leader>b', ':Neotree buffers<CR>', desc = 'NeoTree buffers', silent = true },
+    -- { '<leader>G', ':Neotree git_status<CR>', desc = 'NeoTree git status', silent = true },
+    -- { '<leader>B', ':Neotree buffers<CR>', desc = 'NeoTree buffers', silent = true },
   },
   opts = {
     window = {
