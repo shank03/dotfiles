@@ -68,15 +68,6 @@ return {
       words = { enabled = true },
     },
     keys = {
-      -- Common
-      {
-        '<leader>b',
-        function()
-          Snacks.picker.buffers()
-        end,
-        desc = 'Buffers',
-      },
-
       -- GIT
       {
         '<leader>gb',
