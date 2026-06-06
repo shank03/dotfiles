@@ -1,9 +1,7 @@
-tags
-test.sh
-.luarc.json
-nvim
+*
 
-spell/
-lazy-lock.json
-
-.DS_Store
+!README.md
+!nvim
+!nvim/**
+!tmux
+!tmux/**
