@@ -3,6 +3,9 @@
 --
 -- See the kickstart.nvim README for more information
 
+-- Inside tmux: receives encoded sequence
+vim.keymap.set({ 'n', 't' }, '<M-j>', '<cmd>ToggleTerm<cr>', { noremap = true, silent = true })
+
 return {
   'ThePrimeagen/vim-be-good',
   'williamboman/mason.nvim',
