@@ -1,7 +1,10 @@
 *
 
 !README.md
+
 !nvim
 !nvim/**
+
 !tmux
 !tmux/**
+tmux/plugins
