@@ -72,6 +72,7 @@ return {
       explorer = {
         enabled = true,
         replace_netrw = true,
+        trash = true,
       },
       indent = { enabled = true },
       input = { enabled = true },
@@ -79,6 +80,8 @@ return {
         enabled = true,
         sources = {
           explorer = {
+            hidden = true,
+            ignored = true,
             layout = {
               preset = 'sidebar',
               layout = {
