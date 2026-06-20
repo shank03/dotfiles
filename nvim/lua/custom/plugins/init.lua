@@ -67,15 +67,28 @@ return {
     lazy = false,
     ---@type snacks.Config
     opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
       bigfile = { enabled = true },
       dashboard = { enabled = false },
-      explorer = { enabled = true },
+      explorer = {
+        enabled = true,
+        replace_netrw = true,
+      },
       indent = { enabled = true },
       input = { enabled = true },
-      picker = { enabled = true },
+      picker = {
+        enabled = true,
+        sources = {
+          explorer = {
+            layout = {
+              preset = 'sidebar',
+              layout = {
+                width = 28,
+                min_width = 28,
+              },
+            },
+          },
+        },
+      },
       notifier = { enabled = true },
       quickfile = { enabled = true },
       scope = { enabled = true },
@@ -84,6 +97,22 @@ return {
       words = { enabled = true },
     },
     keys = {
+      -- EXPLORER (replaces neo-tree)
+      {
+        '\\',
+        function()
+          Snacks.explorer()
+        end,
+        desc = 'Snacks Explorer',
+        silent = true,
+      },
+      {
+        '<leader>b',
+        function()
+          Snacks.picker.buffers()
+        end,
+        desc = 'Buffers',
+      },
       -- GIT
       {
         '<leader>gb',
