@@ -51,16 +51,15 @@ return {
     'akinsho/toggleterm.nvim',
     version = '*',
     config = function()
-      require('toggleterm').setup()
+      require('toggleterm').setup {
+        size = vim.o.columns * 0.4,
+        direction = 'float',
+        open_mapping = [[<D-j>]],
+      }
 
       -- Inside tmux: receives encoded sequence
       vim.keymap.set({ 'n', 't' }, '<M-j>', '<cmd>ToggleTerm<cr>', { noremap = true, silent = true })
     end,
-    opts = {
-      size = vim.o.columns * 0.4,
-      direction = 'float',
-      open_mapping = [[<D-j>]],
-    },
   },
   {
     'folke/snacks.nvim',
