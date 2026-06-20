@@ -3,45 +3,59 @@
 --
 -- See the kickstart.nvim README for more information
 
--- Inside tmux: receives encoded sequence
-vim.keymap.set({ 'n', 't' }, '<M-j>', '<cmd>ToggleTerm<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>tc', function()
+  require('telescope.builtin').colorscheme {
+    enable_preview = true,
+    layout_config = { preview_cutoff = 512 },
+  }
+end, { desc = 'Telescope colorschemes' })
 
 return {
   'ThePrimeagen/vim-be-good',
   'williamboman/mason.nvim',
+  'mg979/vim-visual-multi',
+
+  -- themes
   'rebelot/kanagawa.nvim',
   'sho-87/kanagawa-paper.nvim',
-  'mg979/vim-visual-multi',
   'EdenEast/nightfox.nvim',
   'catppuccin/nvim',
   'AlexvZyl/nordic.nvim',
   'felipeagc/fleet-theme-nvim',
 
-  -- {
-  --   'deparr/tairiki.nvim',
-  --   priority = 1000,
-  -- },
+  {
+    'nexxeln/vesper.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('vesper').setup { style = 'auto' }
+      vim.cmd 'colorscheme vesper'
+    end,
+  },
 
-  -- {
-  --   'f-person/auto-dark-mode.nvim',
-  --   config = true,
-  --   opts = {
-  --     update_interval = 1000,
-  --     set_dark_mode = function()
-  --       vim.api.nvim_set_option_value('background', 'dark', {})
-  --       vim.cmd.colorscheme 'kanagawa'
-  --     end,
-  --     set_light_mode = function()
-  --       vim.api.nvim_set_option_value('background', 'light', {})
-  --       vim.cmd.colorscheme 'dawnfox'
-  --     end,
-  --   },
-  -- },
+  {
+    'f-person/auto-dark-mode.nvim',
+    config = true,
+    opts = {
+      update_interval = 1000,
+      set_dark_mode = function()
+        vim.api.nvim_set_option_value('background', 'dark', {})
+      end,
+      set_light_mode = function()
+        vim.api.nvim_set_option_value('background', 'light', {})
+      end,
+    },
+  },
 
   {
     'akinsho/toggleterm.nvim',
     version = '*',
-    config = true,
+    config = function()
+      require('toggleterm').setup()
+
+      -- Inside tmux: receives encoded sequence
+      vim.keymap.set({ 'n', 't' }, '<M-j>', '<cmd>ToggleTerm<cr>', { noremap = true, silent = true })
+    end,
     opts = {
       size = vim.o.columns * 0.4,
       direction = 'float',
@@ -216,6 +230,13 @@ return {
         end,
         desc = 'Toggle Zoom',
       },
+      -- {
+      --   '<leader>tc',
+      --   function()
+      --     Snacks.picker.colorschemes { preview = 'file' }
+      --   end,
+      --   desc = 'Colorschemes',
+      -- },
       {
         '<leader>.',
         function()
