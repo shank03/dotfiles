@@ -4,6 +4,7 @@
 
 !nvim
 !nvim/**
+nvim/*lock*
 
 !tmux
 !tmux/**
