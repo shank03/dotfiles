@@ -55,12 +55,20 @@ return {
         size = vim.o.columns * 0.4,
         direction = 'float',
         open_mapping = [[<D-j>]],
+        float_opts = {
+          border = 'rounded',
+        },
+        highlights = {
+          FloatBorder = { link = 'LineNr' },
+        },
       }
 
       -- Inside tmux: receives encoded sequence
       vim.keymap.set({ 'n', 't' }, '<M-j>', '<cmd>ToggleTerm<cr>', { noremap = true, silent = true })
+      vim.keymap.set({ 'n', 't' }, '<M-t>', '<cmd>TermSelect<cr>', { desc = 'Select Terminal' })
     end,
   },
+
   {
     'folke/snacks.nvim',
     priority = 1000,
@@ -98,6 +106,22 @@ return {
       scroll = { enabled = true },
       statuscolumn = { enabled = true },
       words = { enabled = true },
+      terminal = {
+        win = {
+          style = 'terminal',
+          position = 'float',
+          width = 0.85,
+          height = 0.85,
+          backdrop = 90,
+          border = 'rounded',
+          bo = {
+            filetype = 'snacks_terminal',
+          },
+          -- wo = {
+          --   winhighlight = 'Normal:Normal,NormalNC:Normal',
+          -- },
+        },
+      },
     },
     keys = {
       -- EXPLORER (replaces neo-tree)
@@ -116,6 +140,23 @@ return {
         end,
         desc = 'Buffers',
       },
+      -- TERMINAL (replaces toggleterm)
+      -- {
+      --   '<D-j>',
+      --   function()
+      --     Snacks.terminal.toggle()
+      --   end,
+      --   desc = 'Toggle Terminal',
+      --   mode = { 'n', 't', 'i' },
+      -- },
+      -- {
+      --   '<M-j>',
+      --   function()
+      --     Snacks.terminal.toggle()
+      --   end,
+      --   desc = 'Toggle Terminal (tmux)',
+      --   mode = { 'n', 't' },
+      -- },
       -- GIT
       {
         '<leader>gb',
