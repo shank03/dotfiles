@@ -215,13 +215,13 @@ return {
         desc = 'Git Browse',
         mode = { 'n', 'v' },
       },
-      {
-        '<leader>gg',
-        function()
-          Snacks.lazygit()
-        end,
-        desc = 'Lazygit',
-      },
+      -- {
+      --   '<leader>gg',
+      --   function()
+      --     Snacks.lazygit()
+      --   end,
+      --   desc = 'Lazygit',
+      -- },
       -- LSP
       {
         'gd',
