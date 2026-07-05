@@ -10,6 +10,10 @@ vim.keymap.set('n', '<leader>tc', function()
   }
 end, { desc = 'Telescope colorschemes' })
 
+vim.o.winborder = 'rounded'
+vim.go.pumborder = 'rounded'
+vim.opt.cmdheight = 0
+
 return {
   'ThePrimeagen/vim-be-good',
   'williamboman/mason.nvim',
@@ -69,6 +73,24 @@ return {
     end,
   },
 
+  {
+    'folke/noice.nvim',
+    event = 'VeryLazy',
+    opts = {
+      cmdline = {
+        enabled = true,
+        view = 'cmdline_popup',
+      },
+    },
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      'MunifTanjim/nui.nvim',
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      'rcarriga/nvim-notify',
+    },
+  },
   {
     'folke/snacks.nvim',
     priority = 1000,
