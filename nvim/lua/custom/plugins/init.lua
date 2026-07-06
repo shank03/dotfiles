@@ -58,7 +58,7 @@ return {
       require('toggleterm').setup {
         size = vim.o.columns * 0.4,
         direction = 'float',
-        open_mapping = [[<D-j>]],
+        open_mapping = [[<M-j>]],
         float_opts = {
           border = 'rounded',
         },
