@@ -1,0 +1,11 @@
+appearance = "system"
+theme_dark = "vesper"
+theme_light = "vesper-light"
+
+diff_view = "side-by-side"
+mouse = true
+cursor_line = true
+scroll_offset = 5
+transparent_background = true
+comment_vim = true
+comment_tab_width = 4

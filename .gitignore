@@ -5,6 +5,9 @@
 !ghostty
 !ghostty/**
 
+!tuicr
+!tuicr/**
+
 !nvim
 !nvim/**
 nvim/*lock*
