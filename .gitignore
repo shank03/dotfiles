@@ -8,6 +8,9 @@
 !tuicr
 !tuicr/**
 
+!opencode
+!opencode/**
+
 !nvim
 !nvim/**
 nvim/*lock*
