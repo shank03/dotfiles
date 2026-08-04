@@ -12,6 +12,9 @@ ln -s dotfiles/tuicr tuicr
 mkdir -p opencode
 cd opencode
 ln -s ../dotfiles/opencode/themes themes
+mkdir -p ~/.claude
+cd ~/.claude
+ln -s ~/.config/dotfiles/claude/themes /themes
 ```
 
 > Note: Make sure to rename or remove existing `nvim` or `tmux` folders
