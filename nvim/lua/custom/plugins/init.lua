@@ -28,6 +28,23 @@ return {
     opts = {},
   },
 
+  {
+    'folke/flash.nvim',
+    event = 'VeryLazy',
+    ---@type Flash.Config
+    opts = {},
+    keys = {
+      {
+        's',
+        mode = { 'n', 'x', 'o' },
+        function()
+          require('flash').jump()
+        end,
+        desc = 'Flash',
+      },
+    },
+  },
+
   -- themes
   'rebelot/kanagawa.nvim',
   'sho-87/kanagawa-paper.nvim',
