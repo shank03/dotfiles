@@ -4,7 +4,7 @@
 
 ```shell
 cd ~/.config
-git clone https://github.com/shank03/dotfiles.git
+git clone https://github.com/shvdx/dotfiles.git
 ln -s dotfiles/nvim nvim
 ln -s dotfiles/tmux tmux
 ln -s dotfiles/ghostty ghostty

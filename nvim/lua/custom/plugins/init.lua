@@ -54,7 +54,7 @@ return {
   'felipeagc/fleet-theme-nvim',
 
   {
-    'shank03/vesper.nvim',
+    'shvdx/vesper.nvim',
     lazy = false,
     priority = 1000,
     config = function()
