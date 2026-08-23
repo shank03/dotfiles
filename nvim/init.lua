@@ -427,6 +427,9 @@ require('lazy').setup({
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
+
+      -- Curated JSON/YAML schema catalog for jsonls/yamlls (GitHub Actions, compose, etc.)
+      'b0o/schemastore.nvim',
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -634,6 +637,40 @@ require('lazy').setup({
             },
           },
         },
+
+        jsonls = {
+          settings = {
+            json = {
+              schemas = require('schemastore').json.schemas(),
+              validate = { enable = true },
+            },
+          },
+        },
+
+        yamlls = {
+          settings = {
+            yaml = {
+              schemaStore = { enable = false, url = '' },
+              schemas = require('schemastore').yaml.schemas(),
+              keyOrdering = false,
+            },
+          },
+        },
+
+        dockerls = {},
+        docker_compose_language_service = {},
+
+        -- Already installed via Mason; declared here so they get blink.cmp
+        -- capabilities and reinstall on a fresh machine.
+        basedpyright = {},
+        jsonnet_ls = {},
+        postgres_lsp = {},
+        rust_analyzer = {},
+        svelte = {},
+        ts_ls = {},
+
+        -- multi-module Java, switch to mfussenegger/nvim-jdtls instead.
+        jdtls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -695,20 +732,30 @@ require('lazy').setup({
         local disable_filetypes = { c = true, cpp = true }
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
-        else
-          return {
-            timeout_ms = 500,
-            lsp_format = 'fallback',
-          }
         end
+        -- ktfmt runs on the JVM, so its cold start can blow past a 500ms budget and
+        -- format-on-save would silently bail. Give Kotlin a roomier timeout.
+        local timeout_ms = vim.bo[bufnr].filetype == 'kotlin' and 3000 or 500
+        return {
+          timeout_ms = timeout_ms,
+          lsp_format = 'fallback',
+        }
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        kotlin = { 'ktfmt' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
+      },
+      -- Match CI (build.yml runs `ktfmt --kotlinlang-style`). conform pipes the buffer
+      -- through ktfmt's stdin and patches it in memory, so there is no disk reload.
+      formatters = {
+        ktfmt = {
+          prepend_args = { '--kotlinlang-style' },
+        },
       },
     },
   },
