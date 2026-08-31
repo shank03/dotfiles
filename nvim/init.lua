@@ -938,18 +938,52 @@ require('lazy').setup({
     build = ':TSUpdate',
     lazy = false, -- load at startup so the FileType autocmd below is registered before the first buffer
     config = function()
-      -- Parsers to keep installed. On `main` there is no `ensure_installed`/`auto_install`
-      -- opt; install() fetches missing parsers and `:TSUpdate` keeps them current.
-      require('nvim-treesitter').install {
-        'bash', 'c', 'diff', 'html', 'kotlin', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc',
+      local ts = require 'nvim-treesitter'
+
+      -- Parsers to install/update eagerly at startup. On `main` there is no
+      -- `ensure_installed`; install() fetches missing ones and `:TSUpdate` refreshes.
+      -- Anything not listed here still installs on demand via the FileType autocmd
+      -- below; listing a language just pre-warms it so the first open has no pause.
+      ts.install {
+        -- Editing, config, docs, git.
+        'bash', 'diff', 'gitcommit', 'gitignore', 'lua', 'luadoc', 'markdown',
+        'markdown_inline', 'query', 'regex', 'vim', 'vimdoc',
+        -- Systems.
+        'c', 'cmake', 'cpp', 'go', 'gomod', 'gosum', 'gowork', 'haskell', 'make',
+        'proto', 'rust', 'swift',
+        -- JVM.
+        'java', 'kotlin',
+        -- Scripting.
+        'python',
+        -- Web / frontend.
+        'css', 'graphql', 'html', 'javascript', 'scss', 'svelte', 'tsx', 'typescript',
+        -- Data, config, infra.
+        'dockerfile', 'ini', 'json', 'jsonnet', 'sql', 'toml', 'xml', 'yaml',
       }
 
-      -- Highlighting is core in 0.12; `main` no longer wires it. Start it per buffer.
-      -- pcall guards filetypes that have no installed parser.
+      -- Set of every language the parser registry can install, for the gate below.
+      local available = {}
+      for _, lang in ipairs(ts.get_available()) do
+        available[lang] = true
+      end
+
+      -- `main` dropped master's `auto_install`, so a language with no parser gets no
+      -- highlighting or treesitter folds (why `:TSInstall rust` was needed by hand).
+      -- Replicate it: on each FileType, install the parser on demand (blocking, once
+      -- per language) then start treesitter synchronously, so highlighting and folds
+      -- are ready as the buffer opens. Highlighting is also core-only on 0.12 now.
       vim.api.nvim_create_autocmd('FileType', {
-        group = vim.api.nvim_create_augroup('treesitter-highlight', { clear = true }),
-        callback = function()
-          pcall(vim.treesitter.start)
+        group = vim.api.nvim_create_augroup('treesitter-auto', { clear = true }),
+        callback = function(ev)
+          local lang = vim.treesitter.language.get_lang(ev.match) or ev.match
+          if not available[lang] then
+            return -- No parser exists for this language; nothing to start.
+          end
+
+          if not vim.tbl_contains(ts.get_installed(), lang) then
+            ts.install({ lang }):wait() -- blocks only the first time this language is seen
+          end
+          pcall(vim.treesitter.start, ev.buf, lang)
         end,
       })
     end,
