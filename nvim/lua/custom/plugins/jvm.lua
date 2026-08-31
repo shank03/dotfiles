@@ -16,11 +16,19 @@ local function maven_reactor_root(fname)
   return root
 end
 
+-- Resolve the workspace root to the top of the maven reactor so multi-module
+-- projects share one LSP instance instead of one per module directory.
+local function jvm_root_dir(bufnr, on_dir)
+  local fname = vim.api.nvim_buf_get_name(bufnr)
+  on_dir(maven_reactor_root(fname) or vim.fs.dirname(fname))
+end
+
 vim.lsp.config('kotlin_lsp', {
-  root_dir = function(bufnr, on_dir)
-    local fname = vim.api.nvim_buf_get_name(bufnr)
-    on_dir(maven_reactor_root(fname) or vim.fs.dirname(fname))
-  end,
+  root_dir = jvm_root_dir,
+})
+
+vim.lsp.config('jdtls', {
+  root_dir = jvm_root_dir,
 })
 
 return {}
