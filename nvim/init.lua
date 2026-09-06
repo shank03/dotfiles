@@ -714,6 +714,10 @@ require('lazy').setup({
           end,
         },
       }
+
+      -- sourcekit-lsp ships in Xcode's toolchain, not Mason, so enable it directly.
+      vim.lsp.config('sourcekit', { capabilities = capabilities })
+      vim.lsp.enable 'sourcekit'
     end,
   },
 
@@ -752,6 +756,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         kotlin = { 'ktfmt' },
+        swift = { 'swiftformat' }, -- brew-installed; conform has a builtin swiftformat def
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -949,19 +954,54 @@ require('lazy').setup({
       -- below; listing a language just pre-warms it so the first open has no pause.
       ts.install {
         -- Editing, config, docs, git.
-        'bash', 'diff', 'gitcommit', 'gitignore', 'lua', 'luadoc', 'markdown',
-        'markdown_inline', 'query', 'regex', 'vim', 'vimdoc',
+        'bash',
+        'diff',
+        'gitcommit',
+        'gitignore',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'regex',
+        'vim',
+        'vimdoc',
         -- Systems.
-        'c', 'cmake', 'cpp', 'go', 'gomod', 'gosum', 'gowork', 'haskell', 'make',
-        'proto', 'rust', 'swift',
+        'c',
+        'cmake',
+        'cpp',
+        'go',
+        'gomod',
+        'gosum',
+        'gowork',
+        'haskell',
+        'make',
+        'proto',
+        'rust',
+        'swift',
         -- JVM.
-        'java', 'kotlin',
+        'java',
+        'kotlin',
         -- Scripting.
         'python',
         -- Web / frontend.
-        'css', 'graphql', 'html', 'javascript', 'scss', 'svelte', 'tsx', 'typescript',
+        'css',
+        'graphql',
+        'html',
+        'javascript',
+        'scss',
+        'svelte',
+        'tsx',
+        'typescript',
         -- Data, config, infra.
-        'dockerfile', 'ini', 'json', 'jsonnet', 'sql', 'toml', 'xml', 'yaml',
+        'dockerfile',
+        'ini',
+        'json',
+        'jsonnet',
+        'sql',
+        'toml',
+        'xml',
+        'yaml',
         -- Diagrams (mermaid fenced blocks in markdown; injections don't trigger auto-install).
         'mermaid',
       }
