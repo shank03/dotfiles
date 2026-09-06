@@ -9,11 +9,19 @@ return {
       show_buffer_close_icons = false, -- minimal: no per-tab close 'x'
       show_close_icon = false,
       separator_style = 'thin',
+      offsets = {
+        {
+          filetype = 'snacks_layout_box',
+          text = '',
+          highlight = 'Directory',
+          separator = true,
+        },
+      },
     },
   },
   keys = {
     { '<S-l>', '<cmd>BufferLineCycleNext<cr>', desc = 'Next buffer tab' },
     { '<S-h>', '<cmd>BufferLineCyclePrev<cr>', desc = 'Prev buffer tab' },
-    { '<leader>x', '<cmd>bdelete<cr>', desc = 'Close buffer' },
+    { '<S-x>', '<cmd>bdelete<cr>', desc = 'Close buffer tab' },
   },
 }

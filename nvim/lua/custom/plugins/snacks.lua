@@ -20,9 +20,12 @@ return {
           explorer = {
             hidden = true,
             ignored = true,
-            auto_close = true, -- dismiss the float once a file is opened
             layout = {
-              preset = 'default', -- centered floating overlay instead of a persistent sidebar
+              preset = 'sidebar', -- persistent left sidebar
+              layout = {
+                width = 28,
+                min_width = 28,
+              },
             },
           },
         },
