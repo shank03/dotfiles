@@ -959,6 +959,8 @@ require('lazy').setup({
         'css', 'graphql', 'html', 'javascript', 'scss', 'svelte', 'tsx', 'typescript',
         -- Data, config, infra.
         'dockerfile', 'ini', 'json', 'jsonnet', 'sql', 'toml', 'xml', 'yaml',
+        -- Diagrams (mermaid fenced blocks in markdown; injections don't trigger auto-install).
+        'mermaid',
       }
 
       -- Set of every language the parser registry can install, for the gate below.
