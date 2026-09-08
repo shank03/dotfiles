@@ -20,12 +20,9 @@ return {
           explorer = {
             hidden = true,
             ignored = true,
+            auto_close = true,
             layout = {
-              preset = 'sidebar', -- persistent left sidebar
-              layout = {
-                width = 28,
-                min_width = 28,
-              },
+              preset = 'default',
             },
           },
         },
