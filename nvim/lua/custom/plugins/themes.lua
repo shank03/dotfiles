@@ -24,7 +24,7 @@ return {
         cache = false,
         italic_comments = true,
         terminal_colors = true,
-        saturation = 0.8,
+        saturation = 1,
 
         overrides = function(colors)
           return {
@@ -37,6 +37,7 @@ return {
           default = true,
         },
       }
+      vim.cmd 'colorscheme cyberdream'
     end,
   },
 
@@ -44,10 +45,10 @@ return {
     'shvdx/vesper.nvim',
     lazy = false,
     priority = 1000,
-    config = function()
-      require('vesper').setup { style = 'auto' }
-      vim.cmd 'colorscheme vesper'
-    end,
+    -- config = function()
+    --   require('vesper').setup { style = 'auto' }
+    --   vim.cmd 'colorscheme vesper'
+    -- end,
   },
 
   {
