@@ -14,6 +14,33 @@ return {
   'felipeagc/fleet-theme-nvim',
 
   {
+    'scottmckendry/cyberdream.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('cyberdream').setup {
+        transparent = false,
+        borderless_pickers = true,
+        cache = false,
+        italic_comments = true,
+        terminal_colors = true,
+        saturation = 0.8,
+
+        overrides = function(colors)
+          return {
+            -- default CursorLine = bg_highlight, too heavy; step down to bg_alt
+            CursorLine = { bg = colors.bg_alt },
+          }
+        end,
+
+        extensions = {
+          default = true,
+        },
+      }
+    end,
+  },
+
+  {
     'shvdx/vesper.nvim',
     lazy = false,
     priority = 1000,
