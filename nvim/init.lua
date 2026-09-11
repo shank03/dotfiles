@@ -78,6 +78,9 @@ vim.o.splitbelow = true
 vim.o.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
+-- blank instead of '~' on lines past end-of-buffer
+vim.opt.fillchars:append { eob = ' ' }
+
 -- Preview substitutions live, as you type!
 vim.o.inccommand = 'split'
 
